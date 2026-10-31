@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Teen Melody: The Cost of a Dream</title>
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --primary: #38bdf8;
+      --primary-hover: #0284c7;
+      --accent: #f43f5e;
+      --text: #f8fafc;
+      --subtext: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #1e1b4b, var(--bg-color));
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background: var(--card-bg);
+      border: 1px solid #334155;
+      border-radius: 16px;
+      max-width: 650px;
+      width: 100%;
+      padding: 32px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+
+    h1 {
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: 8px;
+      font-size: 1.8rem;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: var(--subtext);
+      margin-bottom: 24px;
+      font-size: 0.95rem;
+    }
+
+    .status-bar {
+      display: flex;
+      justify-content: space-around;
+      background: #0f172a;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .status-item {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .progress {
+      text-align: center;
+      color: var(--primary);
+      font-weight: bold;
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .story-card {
+      background: #0b1329;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      line-height: 1.6;
+      border-left: 4px solid var(--primary);
+      min-height: 110px;
+    }
+
+    .feeling-box {
+      background: #2e1065;
+      border: 1px solid #7c3aed;
+      color: #e9d5ff;
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 20px;
+      font-style: italic;
+      display: none;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    button {
+      background: #334155;
+      color: var(--text);
+      border: 1px solid #475569;
+      padding: 14px 18px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+      line-height: 1.4;
+    }
+
+    button:hover {
+      background: var(--primary-hover);
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .btn-next {
+      background: var(--primary);
+      color: #000;
+      font-weight: bold;
+      text-align: center;
+      display: none;
+      margin-top: 10px;
+    }
+
+    .btn-next:hover {
+      background: #7dd3fc;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    input[type="text"] {
+      padding: 14px;
+      border-radius: 8px;
+      border: 1px solid #475569;
+      background: #0f172a;
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: #1e293b;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="game-app">
+  <!-- Dynamic Screen Content rendered by JavaScript -->
+</div>
+
+<script>
+  const situations = [
+    {
+      title: "Dropping Out of School",
+      story: "You pack your school bag for the last time. Your mother stands by the door, tears in her eyes. 'If you drop out now, you will have no diploma and no backup plan!' she shouts.",
+      choiceA: {
+        text: "Calmly say: 'Mom, I respect you, but music is my true calling. Give me two years.'",
+        feeling: "Your heart hurts seeing your mom sad, but you feel relieved that you spoke honestly and did not shout.",
+        fame: 0, happy: 2, money: 0
+      },
+      choiceB: {
+        text: "Shout back: 'You never believe in me!' and slam the door on your way out.",
+        feeling: "Adrenaline pumps in your blood. You feel free, but inside you are terrified of being completely on your own.",
+        fame: 0, happy: -2, money: 0
+      }
+    },
+    {
+      title: "Finding Practice Space",
+      story: "Your landlord threatens to kick you out because neighbors complain about your daily loud singing.",
+      choiceA: {
+        text: "Rent a tiny soundproof basement studio with a friend (\$150 a month).",
+        feeling: "You can sing loudly with joy, but checking your dwindling wallet gives you a knot in your stomach.",
+        fame: 1, happy: 2, money: -2
+      },
+      choiceB: {
+        text: "Go practice in public parks and under footbridges for free.",
+        feeling: "Strangers stare and whisper. You feel exposed and slightly humiliated, but your vocal stamina improves.",
+        fame: 1, happy: -1, money: 0
+      }
+    },
+    {
+      title: "The Empty Stomach",
+      story: "Two months pass. Instant noodles are your only meals. You have only \$20 left in your pocket.",
+      choiceA: {
+        text: "Work the midnight shift at a convenience store 5 days a week.",
+        feeling: "You have food to eat, but dark circles appear under your eyes. You are so sleepy during daytime song-writing.",
+        fame: 0, happy: -1, money: 3
+      },
+      choiceB: {
+        text: "Skip meals and keep writing s
