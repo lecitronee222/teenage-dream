@@ -90,7 +90,6 @@
       margin-bottom: 20px;
       line-height: 1.6;
       border-left: 4px solid var(--primary);
-      min-height: 110px;
     }
 
     .feeling-box {
@@ -129,23 +128,23 @@
       transform: translateY(-2px);
     }
 
-    .btn-next {
+    .btn-action {
       background: var(--primary);
       color: #000;
       font-weight: bold;
       text-align: center;
-      display: none;
+      width: 100%;
       margin-top: 10px;
     }
 
-    .btn-next:hover {
+    .btn-action:hover {
       background: #7dd3fc;
     }
 
     .input-group {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
       margin: 20px 0;
     }
 
@@ -157,59 +156,299 @@
       color: #fff;
       font-size: 1rem;
     }
-
-    .badge {
-      display: inline-block;
-      padding: 4px 8px;
-      border-radius: 6px;
-      background: #1e293b;
-      font-size: 0.8rem;
-    }
   </style>
 </head>
 <body>
 
 <div class="container" id="game-app">
-  <!-- Dynamic Screen Content rendered by JavaScript -->
+  <!-- Default content visible immediately -->
+  <h1>TEEN MELODY</h1>
+  <p class="subtitle">The Cost of a Dream: A Teenage Singer's Journey</p>
+  <div class="story-card">
+    <p>You are a 15-year-old student who loves music. Your biggest dream is to sing on big stages.</p>
+    <br/>
+    <p>Today, you decided to drop out of school to become a full-time singer. Will you find success, or will you face harsh difficulties?</p>
+  </div>
+
+  <div class="input-group">
+    <label for="pname" style="font-size:0.9rem; color:var(--subtext);">Enter your character's name:</label>
+    <input type="text" id="pname" value="Alex" maxlength="15" />
+  </div>
+  <button class="btn-action" onclick="startGame()">START YOUR JOURNEY</button>
 </div>
 
 <script>
   const situations = [
     {
-      title: "Dropping Out of School",
-      story: "You pack your school bag for the last time. Your mother stands by the door, tears in her eyes. 'If you drop out now, you will have no diploma and no backup plan!' she shouts.",
+      title: "1. The Big Argument at Home",
+      story: "You pack your school uniform into a box. Your mother cries: 'Without finishing school, you will have no diploma and no safety net!'",
       choiceA: {
-        text: "Calmly say: 'Mom, I respect you, but music is my true calling. Give me two years.'",
-        feeling: "Your heart hurts seeing your mom sad, but you feel relieved that you spoke honestly and did not shout.",
+        text: "Speak calmly: 'Mom, please trust me. Give me two years to try.'",
+        feeling: "You feel sad for your mom, but proud that you stayed calm and respectful.",
         fame: 0, happy: 2, money: 0
       },
       choiceB: {
-        text: "Shout back: 'You never believe in me!' and slam the door on your way out.",
-        feeling: "Adrenaline pumps in your blood. You feel free, but inside you are terrified of being completely on your own.",
+        text: "Shout back: 'You never support me!' and slam the door.",
+        feeling: "Your heart beats fast. You feel independent, but deeply lonely and worried.",
         fame: 0, happy: -2, money: 0
       }
     },
     {
-      title: "Finding Practice Space",
-      story: "Your landlord threatens to kick you out because neighbors complain about your daily loud singing.",
+      title: "2. Finding a Practice Space",
+      story: "Your neighbors call the police because your vocal practice is too loud every day.",
       choiceA: {
-        text: "Rent a tiny soundproof basement studio with a friend (\$150 a month).",
-        feeling: "You can sing loudly with joy, but checking your dwindling wallet gives you a knot in your stomach.",
+        text: "Rent a small basement room with a friend ($150 a month).",
+        feeling: "You can sing as loud as you want, but your wallet feels painfully empty.",
         fame: 1, happy: 2, money: -2
       },
       choiceB: {
-        text: "Go practice in public parks and under footbridges for free.",
-        feeling: "Strangers stare and whisper. You feel exposed and slightly humiliated, but your vocal stamina improves.",
+        text: "Practice for free in public parks and under bridges.",
+        feeling: "Strangers point and laugh at you. You feel embarrassed, but your courage grows.",
         fame: 1, happy: -1, money: 0
       }
     },
     {
-      title: "The Empty Stomach",
-      story: "Two months pass. Instant noodles are your only meals. You have only \$20 left in your pocket.",
+      title: "3. Empty Pockets",
+      story: "After two months, you have only $20 left. You are eating instant noodles every day.",
       choiceA: {
-        text: "Work the midnight shift at a convenience store 5 days a week.",
-        feeling: "You have food to eat, but dark circles appear under your eyes. You are so sleepy during daytime song-writing.",
+        text: "Work midnight shifts at a 24-hour convenience store.",
+        feeling: "You can buy warm food now, but you are so tired you can barely hold a guitar.",
         fame: 0, happy: -1, money: 3
       },
       choiceB: {
-        text: "Skip meals and keep writing s
+        text: "Skip meals and focus on writing songs for 14 hours a day.",
+        feeling: "Your stomach hurts from hunger, but you managed to finish three great demo songs.",
+        fame: 1, happy: -2, money: -1
+      }
+    },
+    {
+      title: "4. A Shady Contract Offer",
+      story: "An agent in a suit approaches you: 'I will make you famous! Sign this 10-year contract. I will take 85% of your money, and you must sing whatever songs I choose.'",
+      choiceA: {
+        text: "Sign the contract right away to get quick resources.",
+        feeling: "You feel excited by the promise of fame, but deep inside you fear losing control.",
+        fame: 4, happy: -3, money: 1
+      },
+      choiceB: {
+        text: "Refuse the deal and protect your music freedom.",
+        feeling: "You feel proud of your self-respect, though you worry another chance might never come.",
+        fame: 0, happy: 2, money: 0
+      }
+    },
+    {
+      title: "5. Social Media Trends",
+      story: "Your songs are not getting many views online. A friend suggests: 'Stop writing serious songs! Just do funny pranks and dress up in silly costumes.'",
+      choiceA: {
+        text: "Post silly prank videos to get views fast.",
+        feeling: "You gained 40,000 followers overnight, but you feel like a joke instead of an artist.",
+        fame: 4, happy: -2, money: 1
+      },
+      choiceB: {
+        text: "Refuse stunts and post acoustic singing videos with sincere lyrics.",
+        feeling: "Views grow very slowly. You feel impatient, but you stay true to yourself.",
+        fame: 1, happy: 2, money: 0
+      }
+    },
+    {
+      title: "6. The Empty Live Show",
+      story: "You carried heavy equipment on the train for 2 hours to play at an indie cafe. Only 3 customers showed up, and they are busy looking at their phones.",
+      choiceA: {
+        text: "Close your eyes and sing your heart out as if the room were full.",
+        feeling: "The cafe owner loves your passion and pays you extra tip money. You feel fulfilled.",
+        fame: 1, happy: 3, money: 1
+      },
+      choiceB: {
+        text: "Pack your bags early and leave angrily.",
+        feeling: "You sit alone on the bus crying, wondering if dropping out was a big mistake.",
+        fame: -1, happy: -3, money: 0
+      }
+    },
+    {
+      title: "7. Cyberbullying Comments",
+      story: "One of your singing clips went viral, but mean comments say: 'Terrible voice,' 'Go back to school,' and 'You have zero talent.'",
+      choiceA: {
+        text: "Write an angry public post insulting the haters back.",
+        feeling: "The haters attack you even more. You spend all night checking notifications with an anxious heart.",
+        fame: 1, happy: -4, money: 0
+      },
+      choiceB: {
+        text: "Turn off comments, take a break from the phone, and practice your pitch.",
+        feeling: "It was hard to ignore the rude words, but you feel stronger and more mature.",
+        fame: 1, happy: 2, money: 0
+      }
+    },
+    {
+      title: "8. Former Classmates' Graduation",
+      story: "You see social media photos of your old friends graduating from Form 6, celebrating college acceptance, and smiling together.",
+      choiceA: {
+        text: "Send warm congratulatory text messages to your close friends.",
+        feeling: "You feel a small pinch of envy, but their warm replies remind you that true friendship remains.",
+        fame: 0, happy: 2, money: 0
+      },
+      choiceB: {
+        text: "Block their accounts so you don't feel like a left-behind loser.",
+        feeling: "A wave of isolation washes over you. You cut yourself off from people your own age.",
+        fame: 0, happy: -3, money: 0
+      }
+    },
+    {
+      title: "9. Damaged Vocal Cords",
+      story: "Two days before an important talent audition, your throat hurts badly. The doctor warns: 'Your vocal cords are swollen. If you sing now, you might lose your voice permanently.'",
+      choiceA: {
+        text: "Cancel the audition and rest your voice in complete silence.",
+        feeling: "You cry over the missed opportunity, but you know protecting your body comes first.",
+        fame: -1, happy: 2, money: 0
+      },
+      choiceB: {
+        text: "Take painkillers and force yourself to sing anyway.",
+        feeling: "You sang the song, but coughing afterward is painful. You are terrified of permanent damage.",
+        fame: 3, happy: -5, money: 0
+      }
+    },
+    {
+      title: "10. The Major Record Label Deal",
+      story: "You turn 18. A major record company offers you an album deal: they will make you famous, but you must change your hairstyle, delete personal accounts, and sing only commercial pop songs.",
+      choiceA: {
+        text: "Sign the deal and follow their strict rules.",
+        feeling: "You feel safe and secure with big money, but your music no longer feels like your own.",
+        fame: 5, happy: -2, money: 4
+      },
+      choiceB: {
+        text: "Turn down the deal and continue releasing independent music online.",
+        feeling: "Money will remain tight, but every word you sing belongs completely to you.",
+        fame: 2, happy: 4, money: 1
+      }
+    }
+  ];
+
+  let state = {
+    playerName: "Alex",
+    currentIndex: 0,
+    fame: 0,
+    happiness: 5,
+    money: 3
+  };
+
+  const app = document.getElementById("game-app");
+
+  function startGame() {
+    const input = document.getElementById("pname").value.trim();
+    if (input) state.playerName = input;
+    state.currentIndex = 0;
+    renderSituation();
+  }
+
+  function renderSituation() {
+    const sit = situations[state.currentIndex];
+    const storyText = sit.story.replace(/You /g, state.playerName + " ").replace(/you /g, state.playerName + " ");
+
+    app.innerHTML = `
+      <div class="status-bar">
+        <div class="status-item">👤 <span>${state.playerName}</span></div>
+        <div class="status-item">⭐ Fame: <span>${state.fame}</span></div>
+        <div class="status-item">❤️ Well-being: <span>${state.happiness}</span></div>
+        <div class="status-item">💵 Money: <span>${state.money}</span></div>
+      </div>
+      <div class="progress">Situation ${state.currentIndex + 1} of 10</div>
+      <h2 style="font-size:1.2rem; margin-bottom:12px; color:var(--primary);">${sit.title}</h2>
+      <div class="story-card">
+        <p>${storyText}</p>
+      </div>
+      <div id="feeling-display" class="feeling-box"></div>
+      <div class="options" id="choice-buttons">
+        <button onclick="makeChoice('A')"><strong>Option A:</strong> ${sit.choiceA.text}</button>
+        <button onclick="makeChoice('B')"><strong>Option B:</strong> ${sit.choiceB.text}</button>
+      </div>
+      <button id="next-btn" class="btn-action" style="display:none;" onclick="nextSituation()">CONTINUE STORY ➔</button>
+    `;
+  }
+
+  function makeChoice(option) {
+    const sit = situations[state.currentIndex];
+    const chosen = option === 'A' ? sit.choiceA : sit.choiceB;
+
+    state.fame += chosen.fame;
+    state.happiness += chosen.happy;
+    state.money += chosen.money;
+
+    const feelingBox = document.getElementById("feeling-display");
+    feelingBox.innerHTML = `<strong>Inner Feeling:</strong> "${chosen.feeling}"`;
+    feelingBox.style.display = "block";
+
+    document.getElementById("choice-buttons").style.display = "none";
+    document.getElementById("next-btn").style.display = "block";
+  }
+
+  function nextSituation() {
+    state.currentIndex++;
+    if (state.currentIndex < situations.length) {
+      renderSituation();
+    } else {
+      renderEnding();
+    }
+  }
+
+  function renderEnding() {
+    let title = "";
+    let desc = "";
+    let pros = "";
+    let difficulties = "";
+
+    if (state.fame >= 9 && state.happiness < 4) {
+      title = "Ending 1: The Packaged Pop Idol";
+      desc = `${state.playerName} achieved big fame and commercial success! However, the company manages your whole life, looks, and schedule. You often feel empty and exhausted behind your bright stage smile.`;
+      pros = "High popularity and stable income.";
+      difficulties = "Loss of privacy, strict contracts, and high mental stress.";
+    } else if (state.happiness >= 8) {
+      title = "Ending 2: The Respected Indie Artist";
+      desc = `${state.playerName} did not become a mainstream superstar, but built a loyal circle of fans. You write heartfelt songs and perform with genuine joy and creative freedom.`;
+      pros = "Total creative control, peace of mind, and honest self-expression.";
+      difficulties = "Modest earnings and slow career growth.";
+    } else if (state.money <= 0 && state.happiness < 6) {
+      title = "Ending 3: The Wake-Up Call";
+      desc = `Unpaid rent and harsh rejections drained ${state.playerName}'s energy. Realizing how tough life is without basic qualifications, you enroll in evening school to earn your diploma while keeping music as a beloved hobby.`;
+      pros = "Gained practical life wisdom and a balanced future.";
+      difficulties = "Realizing that musical passion alone cannot pay rent without financial preparation.";
+    } else {
+      title = "Ending 4: The Resilient Dreamer";
+      desc = `${state.playerName} faced rejections, small audiences, and tired nights, but refused to give up. You developed genuine grit and real performance experience, ready for whatever the industry brings next.`;
+      pros = "Strong character, resilience, and musical maturity.";
+      difficulties = "A bumpy road with continuous uncertainty.";
+    }
+
+    app.innerHTML = `
+      <div class="progress">FINAL CONCLUSION</div>
+      <h1>${title}</h1>
+      <p class="subtitle">Story of ${state.playerName}</p>
+
+      <div class="status-bar">
+        <div class="status-item">⭐ Final Fame: ${state.fame}</div>
+        <div class="status-item">❤️ Well-being: ${state.happiness}</div>
+        <div class="status-item">💵 Money: ${state.money}</div>
+      </div>
+
+      <div class="story-card">
+        <p style="font-size:1.05rem; line-height:1.7;">${desc}</p>
+        <hr style="border:0; border-top:1px solid #334155; margin:16px 0;" />
+        <p style="color:var(--primary); font-weight:600;">Key Takeaways for Students:</p>
+        <p style="color:#86efac; margin-top:6px;"><strong>✔ Pros:</strong> ${pros}</p>
+        <p style="color:#fca5a5; margin-top:6px;"><strong>✘ Difficulties:</strong> ${difficulties}</p>
+      </div>
+
+      <button onclick="restartGame()" class="btn-action">PLAY AGAIN (TRY DIFFERENT CHOICES)</button>
+    `;
+  }
+
+  function restartGame() {
+    state = {
+      playerName: "Alex",
+      currentIndex: 0,
+      fame: 0,
+      happiness: 5,
+      money: 3
+    };
+    location.reload();
+  }
+</script>
+</body>
+</html>
